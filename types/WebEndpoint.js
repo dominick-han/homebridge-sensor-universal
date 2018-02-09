@@ -4,7 +4,10 @@ module.exports = function(config) {
 		interval: config.interval,
 		sensors: config.sensor ? [config.sensor.substring(0, 1).toUpperCase()] : ['T', 'H'],
 		process: function (body) {
-			return {T: JSON.parse(body).temperature, H: JSON.parse(body).humidity}
+			return {T: JSON.parse(body)[this.config["temperature-name"] || "temperature"]
+						+ (this.config["temperature-offset"] || 0),
+					H: JSON.parse(body)[this.config["humidity-name"] || "humidity"]
+						+ (this.config["humidity-offset"] || 0)}
 		},
 		url: config.url
 	}
