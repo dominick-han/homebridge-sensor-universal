@@ -7,6 +7,8 @@ module.exports = function(homebridge) {
 	homebridge.registerAccessory('homebridge-sensor-universal', 'UniversalSensor', UniversalSensor);
 };
 
+const convert = {'H': 'humidity','T': 'temperature',  'humidity': 'H', 'temperature': 'T'};
+
 // Import from directory
 let types = {};
 let normalizedPath = require('path').join(__dirname, 'types');
@@ -80,6 +82,7 @@ UniversalSensor.prototype = {
 					this.humidityService.setCharacteristic(Characteristic.CurrentRelativeHumidity, value.H);
 				}
 				if (callback) {
+					this.log("Updated", convert[type], "to", value[type]);
 					callback(null, value[type]);
 				}
 			} else {
