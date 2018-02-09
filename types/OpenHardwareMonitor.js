@@ -12,12 +12,12 @@ function unpackTemp(input) {
 }
 
 module.exports = function(config) {
-	config.url = config.url.replace(/\/+$/, '') + '/data.json';
 	return {
 		config: config,
 		sensors: ['T'],
 		process: function (body) {
 			return {T: Math.min(...unpackTemp(JSON.parse(body))) + (this.config.offset || 0)}
-		}
+		},
+		url: config.url.replace(/\/+$/, '') + '/data.json'
 	}
 };

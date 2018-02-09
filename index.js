@@ -68,7 +68,7 @@ UniversalSensor.prototype = {
 
 	updateState: function(callback, type) {
 		let updates = type ? [type] : this.type.sensors;
-		request.get({url: this.type.config.url}, (error, res, body) => {
+		request.get({url: this.type.url}, (error, res, body) => {
 			if (!error) {
 				let value = this.type.process(body);
 				if (updates.includes('T')) {
