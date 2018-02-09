@@ -37,20 +37,22 @@ UniversalSensor.prototype = {
 			this.temperatureService = new Service.TemperatureSensor(this.name);
 			this.temperatureService
 				.getCharacteristic(Characteristic.CurrentTemperature)
-				.on('get', this.getTState.bind(this))
+				.on('get', this.getState('T').bind(this))
 				.setProps({
 					minValue: -99,
 					maxValue: 999
 				});
 			services.push(this.temperatureService);
+			this.log("Initialized temperature sensor");
 		}
 
 		if (this.type.sensors.includes('H')) {
 			this.humidityService = new Service.HumiditySensor(this.name);
 			this.humidityService
 				.getCharacteristic(Characteristic.CurrentRelativeHumidity)
-				.on('get', this.getHState.bind(this));
+				.on('get', this.getState('H').bind(this));
 			services.push(this.humidityService);
+			this.log("Initialized humidity sensor");
 		}
 
 		setInterval(this.updateState.bind(this), 1000);
@@ -58,12 +60,10 @@ UniversalSensor.prototype = {
 		return services;
 	},
 
-	getTState: function(callback) {
-		this.updateState(callback, 'T');
-	},
-
-	getHState: function(callback) {
-		this.updateState(callback, 'H');
+	getState: function(type) {
+		return function(callback) {
+			this.updateState(callback, type);
+		}
 	},
 
 	updateState: function(callback, type) {
