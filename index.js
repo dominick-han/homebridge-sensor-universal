@@ -55,7 +55,9 @@ UniversalSensor.prototype = {
 			this.log("Initialized humidity sensor");
 		}
 
-		setInterval(this.updateState.bind(this), 1000);
+		if (this.type.interval !== 0){
+			setInterval(this.updateState.bind(this), (this.type.interval || 1) * 60000);
+		}
 
 		return services;
 	},

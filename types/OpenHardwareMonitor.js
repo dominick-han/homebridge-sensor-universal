@@ -14,6 +14,7 @@ function unpackTemp(input) {
 module.exports = function(config) {
 	return {
 		config: config,
+		interval: config.interval,
 		sensors: ['T'],
 		process: function (body) {
 			return {T: Math.min(...unpackTemp(JSON.parse(body))) + (this.config.offset || 0)}
