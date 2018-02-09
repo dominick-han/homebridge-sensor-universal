@@ -1,0 +1,25 @@
+{
+  "name": "homebridge-sensor-universal",
+  "version": "0.1",
+  "description": "A lightweight flexible unified interface that exposes custom temperature/humidity/air quality data to HomeKit Platform, with minimal dependencies",
+  "main": "index.js",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dominick-han/homebridge-sensor-universal.git"
+  },
+  "author": "Dominick Han",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dominick-han/homebridge-sensor-universal/issues"
+  },
+  "homepage": "https://github.com/dominick-han/homebridge-sensor-universal#readme",
+  "engines": {
+    "homebridge": ">=0.2.0"
+  },
+  "dependencies": {
+    "request": "^2.83.0"
+  }
+}
