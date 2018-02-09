@@ -17,7 +17,7 @@ require('fs').readdirSync(normalizedPath).forEach(function(file) {
 });
 
 function UniversalSensor(log, config) {
-	let params = ['url', 'name', 'manufacturer', 'model', 'serial'];
+	let params = ['url', 'name', 'manufacturer', 'model'];
 	for (let i in params) {
 		this[params[i]] = config[params[i]];
 	}
@@ -31,7 +31,7 @@ UniversalSensor.prototype = {
 		this.informationService
 			.setCharacteristic(Characteristic.Manufacturer, this.manufacturer || 'Dominick Han')
 			.setCharacteristic(Characteristic.Model, this.model || 'Universal Sensor')
-			.setCharacteristic(Characteristic.SerialNumber, this.serial || 'N/A');
+			.setCharacteristic(Characteristic.SerialNumber, this.type.serial || this.type.url || 'N/A');
 
 		let services = [this.informationService];
 

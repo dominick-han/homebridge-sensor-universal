@@ -19,6 +19,7 @@ module.exports = function(config) {
 		process: function (body) {
 			return {T: Math.min(...unpackTemp(JSON.parse(body))) + (this.config.offset || 0)}
 		},
-		url: config.url.replace(/\/+$/, '') + '/data.json'
+		url: config.url.replace(/\/+$/, '') + '/data.json',
+		serial: config.url
 	}
 };
