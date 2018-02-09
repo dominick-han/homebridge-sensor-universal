@@ -17,7 +17,7 @@ module.exports = function(config) {
 		interval: config.interval,
 		sensors: ['T'],
 		process: function (body) {
-			return {T: Math.min(...unpackTemp(JSON.parse(body))) + (this.config.offset || 0)}
+			return {T: Math.min(...unpackTemp(body)) + (this.config.offset || 0)}
 		},
 		url: config.url.replace(/\/+$/, '') + '/data.json',
 		serial: config.url
