@@ -26,28 +26,40 @@ UniversalSensor.prototype = {
 		this.temperatureService = new Service.TemperatureSensor(this.name);
 		this.temperatureService
 			.getCharacteristic(Characteristic.CurrentTemperature)
-			.on('get', this.getState.bind(this))
+			.on('get', this.getTState.bind(this))
 			.setProps({
 				minValue: -99,
 				maxValue: 999
 			});
 
+		this.humidityService = new Service.HumiditySensor(this.name);
+		this.humidityService
+			.getCharacteristic(Characteristic.CurrentRelativeHumidity)
+			.on('get', this.getHState.bind(this));
+
 		setInterval(this.updateState.bind(this), 1000);
 
-		return [this.informationService, this.temperatureService];
+		return [this.informationService, this.temperatureService, this.humidityService];
 	},
 
-	getState: function(callback) {
-		this.updateState(callback);
+	getTState: function(callback) {
+		this.updateState(callback, "t");
 	},
 
-	updateState: function(callback) {
+	getHState: function(callback) {
+		this.updateState(callback, "h");
+	},
+
+	updateState: function(callback, type) {
 		request.get({url: this.url}, (error, res, body) => {
 			if (!error) {
-				let value = JSON.parse(body).temperature;
-				this.temperatureService.setCharacteristic(Characteristic.CurrentTemperature, value);
+				let value = {};
+				value.T= JSON.parse(body).temperature;
+				this.temperatureService.setCharacteristic(Characteristic.CurrentTemperature, value.T);
+				value.H = JSON.parse(body).humidity;
+				this.humidityService.setCharacteristic(Characteristic.CurrentRelativeHumidity, value.H);
 				if (callback) {
-					callback(null, value);
+					callback(null, value[type]);
 				}
 			} else {
 				this.log(error);
