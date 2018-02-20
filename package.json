@@ -1,6 +1,6 @@
 {
   "name": "homebridge-sensor-universal",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A lightweight flexible unified interface that exposes custom temperature/humidity/air quality data to HomeKit Platform, with minimal dependencies",
   "main": "index.js",
   "keywords": [
