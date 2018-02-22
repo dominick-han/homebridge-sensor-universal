@@ -43,7 +43,7 @@ UniversalSensor.prototype = {
 					maxValue: 999
 				});
 			services.push(this.temperatureService);
-			this.log("Initialized temperature sensor");
+			this.log('Initialized temperature sensor');
 		}
 
 		if (this.type.sensors.includes('H')) {
@@ -52,7 +52,7 @@ UniversalSensor.prototype = {
 				.getCharacteristic(Characteristic.CurrentRelativeHumidity)
 				.on('get', this.getState('H').bind(this));
 			services.push(this.humidityService);
-			this.log("Initialized humidity sensor");
+			this.log('Initialized humidity sensor');
 		}
 
 		if (this.type.interval !== 0){
@@ -81,7 +81,7 @@ UniversalSensor.prototype = {
 					this.humidityService.setCharacteristic(Characteristic.CurrentRelativeHumidity, value.H);
 				}
 				if (callback) {
-					this.log("Updated", convert[type], "to", value[type]);
+					this.log('Updated', convert[type], 'to', value[type]);
 					callback(null, value[type]);
 				}
 			} else {
