@@ -17,11 +17,9 @@ require('fs').readdirSync(normalizedPath).forEach(function(file) {
 });
 
 function UniversalSensor(log, config) {
-	let params = ['url', 'name', 'manufacturer', 'model'];
-	for (let i in params) {
-		this[params[i]] = config[params[i]];
-	}
 	this.log = log;
+	this.config = config;
+	this.name = config.name;
 	this.type = types[config.type.name](config.type);
 }
 
@@ -29,14 +27,14 @@ UniversalSensor.prototype = {
 	getServices: function() {
 		this.informationService = new Service.AccessoryInformation();
 		this.informationService
-			.setCharacteristic(Characteristic.Manufacturer, this.manufacturer || 'Dominick Han')
-			.setCharacteristic(Characteristic.Model, this.model || 'Universal Sensor')
+			.setCharacteristic(Characteristic.Manufacturer, this.config.manufacturer || 'Dominick Han')
+			.setCharacteristic(Characteristic.Model, this.config.model || 'Universal Sensor')
 			.setCharacteristic(Characteristic.SerialNumber, this.type.serial || this.type.url || 'N/A');
 
 		let services = [this.informationService];
 
 		if (this.type.sensors.includes('T')) {
-			this.temperatureService = new Service.TemperatureSensor(this.name);
+			this.temperatureService = new Service.TemperatureSensor(this.config.name);
 			this.temperatureService
 				.getCharacteristic(Characteristic.CurrentTemperature)
 				.on('get', this.getState('T').bind(this))
@@ -49,7 +47,7 @@ UniversalSensor.prototype = {
 		}
 
 		if (this.type.sensors.includes('H')) {
-			this.humidityService = new Service.HumiditySensor(this.name);
+			this.humidityService = new Service.HumiditySensor(this.config.name);
 			this.humidityService
 				.getCharacteristic(Characteristic.CurrentRelativeHumidity)
 				.on('get', this.getState('H').bind(this));
