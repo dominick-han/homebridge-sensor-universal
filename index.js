@@ -64,13 +64,13 @@ UniversalSensor.prototype = {
 
 	getState: function(type) {
 		return function(callback) {
-			this.updateState(callback, type, 800);
+			this.updateState(callback, type, 3000);
 		}
 	},
 
 	updateState: function(callback, type, timeout) {
 		let updates = type ? [type] : this.type.sensors;
-		request.get({url: this.type.url, json: true, timeout: timeout || 10000, pool: {maxSockets: Infinity}}, (error, res, body) => {
+		request.get({url: this.type.url, json: true, timeout: timeout || 30000, pool: {maxSockets: Infinity}}, (error, res, body) => {
 			if (!error) {
 				let value = this.type.process(body);
 				this.log(value);
